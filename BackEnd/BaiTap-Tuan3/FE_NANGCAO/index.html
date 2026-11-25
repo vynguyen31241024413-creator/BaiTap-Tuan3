@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Responsive Web Design – Nguyễn Phương Vy</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap");
+    :root { --ink: #3a2552; --pink: #d6336c; --purple: #6c4bd8; --teal: #0b7d68; --orange: #ff9f43; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; font-family: "Nunito", "Segoe UI", Arial, sans-serif; line-height: 1.7; color: var(--ink);
+      background: #fff3f8 radial-gradient(#ffd3e6 2px, transparent 2px) 0 0 / 28px 28px;
+    }
+    header { background: linear-gradient(135deg, #ffd0e5, #e2d6ff 60%, #d3f5ea); padding: 2rem 1.25rem; text-align: center; border-bottom: 4px dashed #fff; }
+    header h1 { margin: 0 0 .25rem; font-size: 2rem; font-weight: 800; }
+    header p { margin: 0; font-weight: 700; }
+    main { max-width: 820px; margin: 0 auto; padding: 1.5rem 1.25rem; }
+    section { background: #fff; border: 3px solid var(--ink); border-radius: 24px; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; box-shadow: 7px 7px 0 #ffc2dc; }
+    section:nth-of-type(2) { box-shadow: 7px 7px 0 #cdbfff; }
+    section:nth-of-type(3) { box-shadow: 7px 7px 0 #b8ecda; }
+    h2 { margin: 0 0 .75rem; font-size: 1.4rem; color: var(--purple); }
+    h3 { margin: 1rem 0 .3rem; font-size: 1.05rem; color: var(--pink); }
+    p { margin: 0 0 .75rem; }
+    ul { margin: 0; padding-left: 1.2rem; }
+    li { margin-bottom: .4rem; }
+    li::marker { color: var(--pink); }
+    code { background: #ece5ff; padding: .1rem .4rem; border-radius: 6px; font-size: .92em; }
+    .table-wrap { overflow-x: auto; }
+    table { border-collapse: collapse; width: 100%; min-width: 480px; }
+    th, td { border: 2px solid var(--ink); padding: .5rem .7rem; text-align: left; vertical-align: top; }
+    th { background: #ece5ff; }
+    .btn {
+      display: inline-block; background: var(--pink); color: #fff; font-weight: 800; text-decoration: none;
+      padding: .6rem 1.5rem; border-radius: 999px; box-shadow: 0 4px 0 rgba(58, 37, 82, .25); transition: transform .15s;
+    }
+    .btn:hover { transform: translateY(-3px) scale(1.04); }
+    .btn:focus-visible, a:focus-visible { outline: 3px solid var(--orange); outline-offset: 3px; }
+    .meter { background: #ddf7ef; border: 2px dashed var(--ink); border-radius: 14px; padding: .75rem 1rem; font-weight: 700; }
+    footer { text-align: center; padding: 0 1rem 2rem; font-weight: 700; }
+    footer a { color: var(--purple); }
+    @media (prefers-reduced-motion: reduce) { .btn { transition: none; } }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>📱 Responsive Web Design</h1>
+    <p>Nội dung học hôm nay – <span id="today"></span></p>
+  </header>
+
+  <main>
+    <section>
+      <h2>Hôm nay mình học gì?</h2>
+      <p>Hôm nay mình học cách làm cho một trang web hiển thị đẹp trên mọi thiết bị, từ máy tính để bàn đến điện thoại. Thay vì làm riêng nhiều bản, chỉ cần một trang HTML và dùng CSS để nó tự co giãn theo chiều rộng màn hình.</p>
+
+      <h3>Các kiến thức chính</h3>
+      <ul>
+        <li><strong>Thẻ viewport:</strong> <code>&lt;meta name="viewport" ...&gt;</code> báo cho điện thoại hiển thị trang theo đúng chiều rộng màn hình thay vì thu nhỏ cả trang.</li>
+        <li><strong>Chia bố cục bằng float:</strong> hai khối <code>.left</code> (70%) và <code>.right</code> (30%) nằm cạnh nhau bằng <code>float</code> và <code>width</code> theo phần trăm.</li>
+        <li><strong>Media query:</strong> dùng <code>@media</code> để áp dụng CSS khác nhau tùy kích thước màn hình hoặc kiểu thiết bị.</li>
+        <li><strong>Hình ảnh theo màn hình:</strong> thẻ <code>&lt;picture&gt;</code> kết hợp <code>&lt;source media="..."&gt;</code> để chọn logo phù hợp với từng độ rộng.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Các quy tắc đã dùng trong bài</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Điều kiện</th><th>Kết quả</th></tr></thead>
+          <tbody>
+            <tr><td>Màn hình rộng hơn 768px</td><td>Khối LEFT (xanh, 70%) và RIGHT (đỏ, 30%) nằm cạnh nhau</td></tr>
+            <tr><td>Rộng tối đa 768px</td><td>Hai khối cùng rộng 100%, xếp chồng lên nhau</td></tr>
+            <tr><td>Từ 320px đến 479px</td><td>Ẩn khối RIGHT</td></tr>
+            <tr><td>Chế độ in</td><td>Ẩn khối LEFT, khối RIGHT rộng 100%</td></tr>
+            <tr><td>Từ 960px / từ 480px / nhỏ hơn</td><td>Hiện ba logo UEH khác nhau qua thẻ picture</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>Xem bài thực hành</h2>
+      <p>Thử kéo thay đổi kích thước cửa sổ trình duyệt (hoặc bấm F12 rồi chọn chế độ điện thoại) để xem bố cục thay đổi.</p>
+      <p class="meter" aria-live="polite">Chiều rộng cửa sổ hiện tại: <span id="width">…</span> px – <span id="mode"></span></p>
+      <p><a class="btn" href="Bai1.html">Mở Bai1.html</a></p>
+    </section>
+  </main>
+
+  <footer>
+    <p>🌸 Nguyễn Phương Vy – EE0001 – UEH 🌸</p>
+    <p><a href="../index.html">← Về trang cá nhân</a></p>
+  </footer>
+
+  <script>
+    document.getElementById("today").textContent = new Date().toLocaleDateString("vi-VN");
+    function showWidth() {
+      var w = window.innerWidth;
+      document.getElementById("width").textContent = w;
+      var mode = w <= 479 ? "điện thoại nhỏ (khối RIGHT bị ẩn)"
+               : w <= 768 ? "máy tính bảng (hai khối xếp chồng)"
+               : "máy tính (hai khối nằm cạnh nhau)";
+      document.getElementById("mode").textContent = mode;
+    }
+    showWidth();
+    window.addEventListener("resize", showWidth);
+  </script>
+</body>
+</html>

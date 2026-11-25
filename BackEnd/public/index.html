@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fff5f9">
+  <meta name="description" content="Ứng dụng quản lý công việc cá nhân, theo dõi hạn và tiến độ mỗi ngày.">
+  <title>Todo App — Quản lý công việc cá nhân</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="app-header">
+    <a class="brand" href="#" aria-label="Todo App, về trang hôm nay"><span class="brand-mark">♥</span><span>Việc xinh<span class="brand-dot"> mỗi ngày</span><small>GÓC NHỎ DỄ THƯƠNG CỦA BẠN</small></span></a>
+    <div class="mascot" id="mascot" aria-label="Linh vật mèo nhỏ" role="img">
+      <svg viewBox="0 0 80 76" aria-hidden="true"><path class="cat-body" d="M12 33 10 9l20 12q10-5 20 0L70 9l-2 25q5 8 3 19-4 17-31 17T9 53q-2-12 3-20Z"/><path class="cat-cheek" d="M18 45q7 5 13 0M49 45q7 5 13 0"/><g class="face-happy"><path d="M27 37q3 6 6 0M48 37q3 6 6 0"/><path d="M36 44q4 5 8 0"/></g><g class="face-sad"><path d="M27 40q3-5 6 0M48 40q3-5 6 0"/><path d="M36 49q4-5 8 0"/></g><path class="cat-nose" d="m37 41 3 2 3-2q-3 5-6 0Z"/><path class="cat-bow" d="m10 17 8-7 1 10Zm10 3 1-10 8 7Z"/></svg>
+      <span class="mascot-heart">♥</span>
+    </div>
+    <nav>
+      <button class="tab active" data-view="today">Hôm nay 🌸</button>
+      <button class="tab" data-view="all">Tất cả 📒</button>
+      <button class="tab" data-view="stats">Thống kê 🍓</button>
+    </nav>
+    <button id="btn-add" class="primary">+ Thêm việc xinh</button>
+  </header>
+
+  <main>
+    <section id="view-tasks">
+      <div class="page-heading"><div><p class="eyebrow">♡ MỘT CHÚT XINH XẮN MỖI NGÀY</p><h2 id="view-title"></h2><p class="muted heading-note">Chậm rãi thôi nhé, mỗi việc nhỏ đều đáng được khen!</p></div></div>
+      <div id="congrats" class="congrats hidden" role="status">🎉 Hoàn thành hết việc hôm nay rồi! Bạn tuyệt vời lắm! 💖</div>
+      <div class="toolbar">
+        <span class="search-wrap"><span aria-hidden="true">⌕</span><input type="search" id="search" placeholder="Tìm việc xinh của bạn..."></span>
+        <select id="f-status">
+          <option value="">Mọi trạng thái</option>
+          <option value="todo">Chưa làm</option>
+          <option value="doing">Đang làm</option>
+          <option value="done">Hoàn thành</option>
+        </select>
+        <select id="f-priority">
+          <option value="">Mọi mức ưu tiên</option>
+          <option value="high">Cao</option>
+          <option value="medium">Trung bình</option>
+          <option value="low">Thấp</option>
+        </select>
+        <select id="f-category"><option value="">Mọi danh mục</option></select>
+        <select id="f-date">
+          <option value="">Mọi ngày</option>
+          <option value="today">Hôm nay</option>
+          <option value="overdue">Quá hạn</option>
+        </select>
+      </div>
+      <p id="load-error" class="error-banner hidden" role="alert"></p>
+      <ul id="task-list" aria-live="polite"></ul>
+      <p id="empty" class="muted hidden">Chưa có việc nào, nghỉ ngơi thôi~</p>
+    </section>
+
+    <section id="view-stats" class="hidden">
+      <div class="page-heading"><div><p class="eyebrow">♡ NHỮNG ĐIỀU BẠN ĐÃ LÀM ĐƯỢC</p><h2>Bảng thành tích xinh</h2><p class="muted heading-note">Mỗi dấu tick là một điều đáng tự hào.</p></div></div>
+      <div id="stat-cards" class="cards"></div>
+      <div class="grid">
+        <div class="panel"><h3>Theo trạng thái</h3><div id="chart-status"></div></div>
+        <div class="panel"><h3>Theo độ ưu tiên</h3><div id="chart-priority"></div></div>
+        <div class="panel"><h3>Theo danh mục</h3><div id="chart-category"></div></div>
+        <div class="panel"><h3>7 ngày gần nhất (hoàn thành / tổng)</h3><div id="chart-last7"></div></div>
+      </div>
+    </section>
+  </main>
+
+  <dialog id="dialog">
+    <form id="form" method="dialog">
+      <h3 id="dialog-title">Thêm task</h3>
+      <label>Tiêu đề *<input name="title" required maxlength="150" placeholder="Ví dụ: Hoàn thành báo cáo tuần"></label>
+      <label>Mô tả<textarea name="description" rows="3"></textarea></label>
+      <div class="row">
+        <label>Danh mục<input name="category" list="cat-list" value="Khác"><datalist id="cat-list"></datalist></label>
+        <label>Hạn<input type="date" name="due_date"></label>
+      </div>
+      <div class="row">
+        <label>Ưu tiên
+          <select name="priority">
+            <option value="high">Cao</option>
+            <option value="medium" selected>Trung bình</option>
+            <option value="low">Thấp</option>
+          </select>
+        </label>
+        <label>Trạng thái
+          <select name="status">
+            <option value="todo">Chưa làm</option>
+            <option value="doing">Đang làm</option>
+            <option value="done">Hoàn thành</option>
+          </select>
+        </label>
+      </div>
+      <p id="form-error" class="error"></p>
+      <div class="actions">
+        <button type="button" id="btn-cancel">Hủy</button>
+        <button type="submit" class="primary">Lưu</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
